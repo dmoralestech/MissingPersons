@@ -1,7 +1,7 @@
 {
-  "name": "coles-ss",
+  "name": "api",
   "version": "1.0.0",
-  "description": "Coles Self Serve",
+  "description": "api for missing persons",
   "main": "index.js",
   "scripts": {
     "start": "node --harmony index.js",
