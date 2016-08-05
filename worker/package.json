@@ -1,0 +1,11 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "description": "The worker will is designed to attach to a Rabbit MQ and do work.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
