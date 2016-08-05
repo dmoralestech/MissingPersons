@@ -1,6 +1,14 @@
 # MissingPersons
 This is a sample project to replicate a missing persons application with ReactJS, WebPack, NodeJS, Restify, MongoDB, with Docker
 
+## Phases
+
+This project will be broken down into three phases.
+
+1. Build a Restify API that will use JWT and provide a profile CRUD API
+2. create a login page with ReactJS to use the service
+3. create some workers 
+
 ##  Directory Structure
 
 ## Rest API ( useing restify and swagger )
