@@ -108,18 +108,28 @@ if (config.get('api:environment') == 'development') {
 } else {
     console.log('Mongoose debug is off');
 }
-
+mongoose.Promise = require('bluebird');
 mongoose.connect(config.get('api:database'), function (error) {
     if (error) {
         console.error('Could not connect to DB: %s', error);
         process.exit(1);
     }
 });
-
+mongoose.connection.on('connected', function () {
+    console.log('Mongoose connected to ' + config.get('api:database'));
+});
 mongoose.connection.on('error', function (error) {
     console.error('MongoDB connection error: %s', error);
 });
-
+mongoose.connection.on('disconnected', function () {
+    console.log('Mongoose disconnected');
+});
+process.on('SIGINT', function () {
+    mongoose.connection.close(function () {
+        console.log('Mongoose disconnected through app termination');
+        process.exit(0);
+    });
+});
 //server.post('/login', passport.authenticate('local-login'), function (req, res) {
 //    createSendToken(req.user, res);
 //});
