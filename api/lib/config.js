@@ -32,6 +32,9 @@ let init = function init() {
         },
         'api:database': {
             name: 'DATABASE'
+        },
+        'api:jwtpassword':{
+            name: 'JWTPASSWORD'
         }
     });
 };

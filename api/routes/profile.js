@@ -5,14 +5,14 @@ var User = require('../models/user'),
     NotFoundError = require('restify').errors.NotFoundError,
     BadRequestError = require('restify').errors.BadRequestError;
 
-let getProfileBuId = function getProfileBuId (){
+let getProfileBuId = function getProfileBuId ( req, res, next ){
 
 };
 
 module.exports = function ( server ) {
 
 
-    server.get('/user/:id', passport.authenticate('local'), getProfileBuId );
+    server.get('/user/:id', passport.authenticate('local'),  getProfileBuId );
 
     return server;
 };
