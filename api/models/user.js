@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
 
 var roles = 'user admin'.split(' ');
 
-const validatePresenceOf = value => value && value.length;
+const validatePresenceOf = value => value && value.length != 0;
 
 var NameSchema = {
     first: {type: String, trim: true},
@@ -35,13 +35,9 @@ var UserSchema = new Schema({
 
 /** Validators **/
 
-UserSchema.path('name.first').validate(function (name) {
-    return name.length;
-}, 'First Name cannot be blank');
+UserSchema.path('name.first').validate(validatePresenceOf, 'First Name cannot be blank');
 
-UserSchema.path('name.surname').validate(function (name) {
-    return name.length;
-}, 'Surname cannot be blank');
+UserSchema.path('name.surname').validate(validatePresenceOf, 'Surname cannot be blank');
 
 UserSchema.path('email').validate(function (email, fn) {
     const User = mongoose.model('User');
