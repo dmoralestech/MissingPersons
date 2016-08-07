@@ -1,5 +1,5 @@
 require('mongoose').models = {};
 
 module.exports = {
-    Profile: require('./profile') 
+    User: require('./user')
 };
