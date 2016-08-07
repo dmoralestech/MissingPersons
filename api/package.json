@@ -26,6 +26,7 @@
   "dependencies": {
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
+    "bson": "^0.5.2",
     "bunyan": "^1.8.1",
     "crypto": "0.0.3",
     "dotenv": "^2.0.0",
@@ -33,6 +34,7 @@
     "moment": "^2.14.1",
     "mongoose": "^4.5.7",
     "morgan": "^1.7.0",
+    "node-gyp": "^3.4.0",
     "passport": "^0.3.2",
     "restify": "^4.1.1",
     "twelve": "0.0.19",
