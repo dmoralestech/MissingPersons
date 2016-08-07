@@ -23,7 +23,6 @@ var describe = require('mocha').describe,
 
 describe('MODELS:', () => {
 
-
     mongoose.set('debug', true);
     mongoose.connect(config.get('api:database'), function (error) {
         if (error) {
