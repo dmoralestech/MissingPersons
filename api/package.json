@@ -1,25 +1,42 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "api for missing persons",
+  "description": "Rest API for Missing Person",
   "main": "index.js",
   "scripts": {
     "start": "node --harmony index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --harmony ./node_modules/mocha/bin/_mocha --ui bdd  **/*.spec.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/psenger/MissingPersons"
+  },
+  "keywords": [
+    "Resitfy",
+    "ReactJS",
+    "Mongodb",
+    "RabbitMq"
+  ],
   "author": "Philip A Senger",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/psenger/MissingPersons/issues"
+  },
+  "homepage": "https://github.com/psenger/MissingPersons",
   "dependencies": {
+    "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
     "bunyan": "^1.8.1",
     "crypto": "0.0.3",
     "dotenv": "^2.0.0",
     "express-restify-mongoose": "^4.1.1",
+    "moment": "^2.14.1",
     "mongoose": "^4.5.7",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "restify": "^4.1.1",
-    "twelve": "0.0.19"
+    "twelve": "0.0.19",
+    "uuid": "^2.0.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",

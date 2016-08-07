@@ -16,10 +16,9 @@ var NameSchema = {
     surname: {type: String, trim: true}
 };
 
-var ProfileSchema = new Schema({
+var UserSchema = new Schema({
     email: {type: String, lowercase: true, unique: true},
     name: NameSchema,
-    policy: {type: String},
     roles: [{type: String, enum: roles}],
     confirmed: {
         email: {type: Boolean, default: false} /** indicates the email has been confirmed **/
@@ -34,35 +33,38 @@ var ProfileSchema = new Schema({
     }
 }, {safe: true, strict: true});
 
-ProfileSchema.path('name.first').validate(function (name) {
+/** Validators **/
+
+UserSchema.path('name.first').validate(function (name) {
     return name.length;
 }, 'First Name cannot be blank');
 
-ProfileSchema.path('name.surname').validate(function (name) {
+UserSchema.path('name.surname').validate(function (name) {
     return name.length;
 }, 'Surname cannot be blank');
 
-ProfileSchema.path('email').validate(function (email, fn) {
-    const Profile = mongoose.model('Profile');
+UserSchema.path('email').validate(function (email, fn) {
+    const User = mongoose.model('User');
     // Check only when it is a new user or when email field is modified
     if (this.isNew || this.isModified('email')) {
-        Profile.find({ email: email }).exec(function (err, users) {
+        User.find({ email: email }).exec(function (err, users) {
             fn(!err && users.length === 0);
         });
     } else fn(true);
 }, 'Email already exists');
 
-ProfileSchema.path('userHashedPassword').validate(function (hashed_password) {
+UserSchema.path('userHashedPassword').validate(function (hashed_password) {
     return hashed_password.length && this._password.length;
 }, 'Password cannot be blank');
 
-ProfileSchema.index({email: 1});
-ProfileSchema.index({policy: 1});
+UserSchema.index({email: 1});
+
+UserSchema.index({policy: 1});
 
 /**
  * Pre-save hook
  */
-// ProfileSchema.pre('save', function (next) {
+// UserSchema.pre('save', function (next) {
 //     if (!this.isNew) return next();
 //     if (!validatePresenceOf(this.password)) {
 //         next(new Error('Invalid password'));
@@ -71,17 +73,14 @@ ProfileSchema.index({policy: 1});
 //     }
 // });
 
-ProfileSchema.methods = {
+UserSchema.methods = {
     makeSalt: function () {
         return Math.round((new Date().valueOf() * Math.random())) + '';
     },
     encryptPassword: function (password) {
         if (!password) return '';
         try {
-            return crypto
-                .createHmac('sha1', this.salt)
-                .update(password)
-                .digest('hex');
+            return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
         } catch (err) {
             return '';
         }
@@ -91,7 +90,7 @@ ProfileSchema.methods = {
 /**
  * Virtuals
  */
-ProfileSchema
+UserSchema
     .virtual('password')
     .set(function (password) {
         this._password = password;
@@ -101,4 +100,6 @@ ProfileSchema
     .get(function () {
         return this._password;
     });
-module.exports = ProfileSchema;
+
+
+module.exports = mongoose.model('User', UserSchema);
