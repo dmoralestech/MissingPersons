@@ -36,6 +36,7 @@
     "morgan": "^1.7.0",
     "node-gyp": "^3.4.0",
     "passport": "^0.3.2",
+    "passport-jwt": "^2.1.0",
     "restify": "^4.1.1",
     "twelve": "0.0.19",
     "uuid": "^2.0.2"
