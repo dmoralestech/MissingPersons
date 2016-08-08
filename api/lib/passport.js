@@ -1,8 +1,8 @@
 /**
  * Created by psenger on 8/6/16.
  */
-let mongoose = require('mongoose'),
-    config = require('../lib/config').getInstance(),
+let config = require('../lib/config').getInstance(),
+    passport = require('passport'),
     JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt,
     User = require('../models/user'); /** TODO: lets see if we can leverage the auto load of resources here. **/
@@ -13,6 +13,9 @@ opts.secretOrKey = config.get('api:jwtpassword');
 opts.issuer = "missing.persons.com";
 opts.audience = ["missing.persons.com"];
 
+// (REQUIRED) Function that accepts a reqeust as the only parameter and returns the either JWT as a string or null
+opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
+
 /**
  * Header defined:
  * {
@@ -20,34 +23,10 @@ opts.audience = ["missing.persons.com"];
  *   "typ": "JWT"
  * }
  */
-
-/**
- * Will expect the JWT to be in the header.
- * <code>
- * Authorization: JWT JSON_WEB_TOKEN_STRING
- * </code>
- *
- * @param passport
- * @param config
- */
-module.exports = function (passport, config) {
-    //
-    // -- because we don't use a cookie... this doesnt work?
-    //
-    // /** TODO: do we need this ? */
-    // passport.serializeUser(function (user, done) {
-    //     done(null, user.id);
-    // });
-    // /** TODO: do we need this ? */
-    // passport.deserializeUser(function (id, done) {
-    //     User.findOne({_id: id}, function (err, user) {
-    //         done(err, user);
-    //     });
-    // });
-    passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-        /**
-         * Private Claim ( not registered ) JWT Payload defined:
-         *  {
+passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+    /**
+     * Private Claim ( not registered ) JWT Payload defined:
+     *  {
          *    iss: string - The issuer of the token ( our website )
          *    sub: string - The subject of the token ( the user id )
          *    aud: [string] - The audience of the token ( an array of uri or urls )
@@ -56,18 +35,25 @@ module.exports = function (passport, config) {
          *    iat: integer - Issued At - The time the JWT was issued. Can be used to determine the age of the JWT
          *    jti: string - JWT ID - Unique identifier for the JWT. Can be used to prevent the JWT from being replayed. This is helpful for a one time use token.
         *   }
-         */
-        User.findOne({id: jwt_payload.sub}, function(err, user) {
-            if (err) {
-                return done(err, false);
-            }
-            if (user) {
-                done(null, user);
-            } else {
-                done(null, false);
-                // or you could create a new account
-            }
-        });
-    }));
-}
+     */
+    User.findOne({id: jwt_payload.sub}, function(err, user) {
+        if (err) {
+            return done(err, false);
+        }
+        if (user) {
+            done(null, user);
+        } else {
+            done(null, false);
+            // or you could create a new account
+        }
+    });
+}));
+/**
+ * Will expect the JWT to be in the header.
+ * <code>
+ * Authorization: JWT JSON_WEB_TOKEN_STRING
+ * </code>
+ *
+ */
+module.exports = passport;
 

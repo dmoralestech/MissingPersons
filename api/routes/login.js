@@ -6,9 +6,9 @@ var User = require('../models/user'),
     NotFoundError = require('restify').errors.NotFoundError,
     BadRequestError = require('restify').errors.BadRequestError;
 
-module.exports = function ( server ) {
+module.exports = function ( server, passport ) {
 
-    server.post('/login', passport.authenticate('local', { successRedirect: '/',  failureRedirect: '/login' }));
+    server.post('/login', passport.authenticate('jwt', { successRedirect: '/',  failureRedirect: '/login' }));
 
     return server;
 };
