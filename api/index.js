@@ -6,9 +6,10 @@ const app = require('./package.json');
 const restify = require('restify');
 const mongoose = require('mongoose');
 const config = require('./lib/config').getInstance();
-const profile = require('./routes/profile');
+// const profile = require('./routes/profile');
 const morgan = require('morgan');
 const bunyan = require('bunyan');
+const path = require('path');
 
 // Morgan - Logging
 // if (config.get('api:environment') == 'production') {
@@ -43,14 +44,13 @@ var options = {
     log: log
 };
 
-if (nconf.get('NODE_ENV') === 'development') {
+if (config.get('api:environment') === 'development') {
     console.log("!!!!!!!!!!!!!!!!!!!!!");
     console.log("!! Warning:        !!");
     console.log("!!                 !!");
     console.log("!!       SSL OFF   !!");
     console.log("!!                 !!");
     console.log("!!!!!!!!!!!!!!!!!!!!!");
-    _.defaults(options, {});
 } else {
     console.log("!!!!!!!!!!!!!!!!!!!!!");
     console.log("!! Warning:        !!");
@@ -58,7 +58,7 @@ if (nconf.get('NODE_ENV') === 'development') {
     console.log("!!       SSL ON    !!");
     console.log("!!                 !!");
     console.log("!!!!!!!!!!!!!!!!!!!!!");
-    _.defaults(options, {
+    options = Object.assign(options, {
         key: fs.readFileSync('../ssl/server.key'),
         cert: fs.readFileSync('../ssl/server.crt'),
         ca: fs.readFileSync('../ssl/ca.crt'),
@@ -143,8 +143,8 @@ process.on('SIGINT', function () {
 //].forEach(function (method) {
 //    server[method]('/secure', passport.authenticate('jwt', { session: false } ) );
 //});
-
-server.get({path: '/profile', version: ['1.0.0']}, profile(mongoose));
+//
+// server.get({path: '/profile', version: ['1.0.0']}, profile(mongoose));
 
 server.listen(config.get('api:port'), function () {
     console.log('%s listening at %s in %s mode.', server.name, server.url, config.get('api:environment'));

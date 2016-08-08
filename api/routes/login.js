@@ -2,8 +2,7 @@
  * Created by psenger on 1/08/2016.
  */
 
-
-var profile = require('../models/profile'),
+var User = require('../models/user'),
     NotFoundError = require('restify').errors.NotFoundError,
     BadRequestError = require('restify').errors.BadRequestError;
 

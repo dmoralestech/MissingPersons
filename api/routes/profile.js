@@ -12,7 +12,7 @@ let getProfileBuId = function getProfileBuId ( req, res, next ){
 module.exports = function ( server ) {
 
 
-    server.get('/user/:id', passport.authenticate('local'),  getProfileBuId );
+    // server.get('/user/:id', passport.authenticate('jwt', { session: false}),  getProfileBuId );
 
     return server;
 };

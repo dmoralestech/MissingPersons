@@ -31,16 +31,19 @@ opts.audience = ["missing.persons.com"];
  * @param config
  */
 module.exports = function (passport, config) {
-    /** TODO: do we need this ? */
-    passport.serializeUser(function (user, done) {
-        done(null, user.id);
-    });
-    /** TODO: do we need this ? */
-    passport.deserializeUser(function (id, done) {
-        User.findOne({_id: id}, function (err, user) {
-            done(err, user);
-        });
-    });
+    //
+    // -- because we don't use a cookie... this doesnt work?
+    //
+    // /** TODO: do we need this ? */
+    // passport.serializeUser(function (user, done) {
+    //     done(null, user.id);
+    // });
+    // /** TODO: do we need this ? */
+    // passport.deserializeUser(function (id, done) {
+    //     User.findOne({_id: id}, function (err, user) {
+    //         done(err, user);
+    //     });
+    // });
     passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
         /**
          * Private Claim ( not registered ) JWT Payload defined:
