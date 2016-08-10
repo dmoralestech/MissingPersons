@@ -82,6 +82,7 @@ server.use(restify.CORS());
 server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
+server.use(passport.initialize());
 
 if (config.get('api:environment') == 'development') {
     console.log('Mongoose debug is on');
@@ -111,9 +112,7 @@ process.on('SIGINT', function () {
         process.exit(0);
     });
 });
-//server.post('/login', passport.authenticate('local-login'), function (req, res) {
-//    createSendToken(req.user, res);
-//});
+
 //[   'del',
 //    'get',
 //    'head',
@@ -127,7 +126,9 @@ process.on('SIGINT', function () {
 //
 // server.get({path: '/profile', version: ['1.0.0']}, profile(mongoose));
 
+
 server = require('./routes/login')(server, passport);
+server = require('./routes/profile')(server, passport);
 
 server.listen(config.get('api:port'), function () {
     console.log('%s listening at %s in %s mode.', server.name, server.url, config.get('api:environment'));
