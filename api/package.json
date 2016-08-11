@@ -33,7 +33,7 @@
     "express-restify-mongoose": "^4.1.1",
     "jsonwebtoken": "^7.1.7",
     "moment": "^2.14.1",
-    "mongoose": "^4.5.7",
+    "mongoose": "^4.5.8",
     "morgan": "^1.7.0",
     "node-gyp": "^3.4.0",
     "passport": "^0.3.2",

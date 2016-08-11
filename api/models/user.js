@@ -89,7 +89,7 @@ UserSchema.path('userHashedPassword').validate(function (hashed_password) {
 
 UserSchema.index({email: 1});
 
-UserSchema.index({policy: 1});
+// UserSchema.index({policy: 1});
 
 /**
  * Pre-save hook

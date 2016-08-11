@@ -12,7 +12,7 @@ var User = require('../models/user'),
 module.exports = function (server, passport) {
 
     server.post('/register', function (req, res) {
-        /** @TODO: PAS not done **/
+        res.send({success: false, message: 'Authentication failed.'});
     });
 
     server.post('/login', function (req, res, next) {
